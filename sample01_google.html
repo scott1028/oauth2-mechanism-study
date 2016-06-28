@@ -20,6 +20,8 @@
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signIn().then(function () {
           debugger;
+          // 把 accessToken 送去 backend 驗證
+          console.log(arguments);
           console.log('User signed in.');
         });
       }
