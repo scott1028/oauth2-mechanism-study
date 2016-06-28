@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="xxxxxxxx.apps.googleusercontent.com">
+  </head>
+
+  <body>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <a href="#" onclick="signIn();">Sign in</a>
+    <a href="#" onclick="signOut();">Sign out</a>
+    <script>
+      function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+      }
+
+      function signIn(){
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signIn().then(function () {
+          debugger;
+          console.log('User signed in.');
+        });
+      }
+    </script>
+  </body>
+</html>
