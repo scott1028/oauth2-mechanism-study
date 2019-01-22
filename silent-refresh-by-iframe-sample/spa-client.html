@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <div>
+    <div>Normally this iframe should be hidden!</div>
+    <iframe id="refresh_token_handler" src="authentication-server-refresh-token-page.html"></iframe>
+  </div>
+  <script>
+    window.onmessage = e => alert(e.data);
+  </script>
+</body>
+</html>
