@@ -8,8 +8,15 @@
     <div>Normally this iframe should be hidden!</div>
     <iframe id="refresh_token_handler" src="authentication-server-refresh-token-page.html"></iframe>
   </div>
+  <button onclick="doRefresh();">Renew Access Token by Silent Refresh Way</button>
   <script>
     window.onmessage = e => alert(e.data);
+
+    var doRefresh = () => {
+      // force iframe page reload to receive new token!!
+      document.querySelector('#refresh_token_handler')
+        .contentDocument.location.reload();
+    };
   </script>
 </body>
 </html>
