@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <div>
+    <div>This is authentication server with loggedIn cookie for implicit flow and silient refresh mechanism.</div>
+    <iframe id="refresh_token_handler"></iframe>
+  </div>
+  <script>
+    setTimeout(() => parent.postMessage({
+      type: 'TOKEN-RENEWED',
+      value: 'this is new access_token from iframe of child!!',
+      timestamp: new Date()
+    }, '*'), 3000);
+  </script>
+</body>
+</html>

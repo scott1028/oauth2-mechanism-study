@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <div>
+    <div>Normally this iframe should be hidden!</div>
+    <!-- <iframe id="refresh_token_handler" src="authentication-server-refresh-token-page.html"></iframe> -->
+  </div>
+  <button onclick="doRefresh();">Renew Access Token by Silent Refresh Way</button>
+  <script>
+    // Module
+    const initTokenRefresher = (src, timeout = 5000, success = e => console.log(e), error = e => console.log(e)) => {
+      const config = {};
+      window.addEventListener('message', e => {
+        switch(e.data.type) {
+          case 'TOKEN-RENEWED':
+            config.iframe.remove();
+            console.log(e.data.value);
+            console.log(config.iframe.id);
+            clearTimeout(config.timeoutId);
+            success(e.data);
+            break;
+          case 'RENEW-TIMEOUT':
+            config.iframe.remove();
+            error(e.data);
+            break;
+          default:
+            console.log(e);
+            break;
+        }
+      });
+      return () => {
+        document.querySelector('#refresh_token_handler')
+          const iframe = document.createElement('iframe');
+          iframe.id = 'token-handler';
+          iframe.src = src;
+          document.body.append(iframe);
+          config.iframe = iframe;
+          config.timeoutId = setTimeout(() => postMessage({ type: 'RENEW-TIMEOUT' }), timeout);
+      };
+    };
+
+    // Usage
+    const refreshHandle = initTokenRefresher('/authentication-server-refresh-token-page.html', 5000);
+
+    const doRefresh = () => {
+      refreshHandle();
+    }
+
+  </script>
+</body>
+</html>
