@@ -9,13 +9,20 @@
     <!-- <iframe id="refresh_token_handler" src="authentication-server-refresh-token-page.html"></iframe> -->
     <script src="dist.js"></script>
   </div>
-  <button onclick="doRefresh();">Renew Access Token by Silent Refresh Way</button>
+  <button onclick="doRefresh();">Renew Access Token by Silent Refresh Way Test</button>
+  <button onclick="doRefresh2();">Fail Renew Access Token by Silent Refresh Way Test</button>
   <script>
     // Usage
-    const perform = initTokenRefresher('/authentication-server-refresh-token-page.html', 5000, { TOKEN_RENEWED: 'TOKEN-RENEWED' });
+    const silentRefresher1 = new SilentRefresher('/authentication-server-refresh-token-page.html', 5000, { tokenRenewed: 'TOKEN-RENEWED' });
 
     const doRefresh = () => {
-      perform().then(val => console.log(val, 9999));
+      silentRefresher1.perform(() => console.log(new Date())).then(val => console.log(val, 'All done!!')).catch(e => console.error(e, `Some error`));
+    }
+
+    const silentRefresher2 = new SilentRefresher('/no-exist', 2000);
+
+    const doRefresh2 = () => {
+      silentRefresher2.perform().then(val => console.log(val, 'All done!!')).catch(e => console.error(e, `Some error`));
     }
 
   </script>
