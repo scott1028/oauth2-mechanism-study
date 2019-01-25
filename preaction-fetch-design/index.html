@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <script>
+    // Implementation
+    const fetchApiFactory = (session) => (...args) => {
+      if (!session.expired) {
+        return fetch.apply(this, args);
+      }
+      return new Promise((res, rej) => {
+        const handler = e => {
+          console.log(e, 'test');
+          session.expired = false;
+          window.removeEventListener('message', handler);
+          res(fetch.apply(this, args));
+        };
+        window.addEventListener('message', handler);
+      });
+    };
+
+    // mock session
+    let session = {
+      expired: true,
+      value: 'my-token',
+    };
+
+    // pre-action fetch
+    const fetchApi = fetchApiFactory(session);
+
+    // test-case
+    fetchApi(`/api/${new Date().getTime()}`).then(resp => console.log(`${new Date().getTime()}`));
+    console.log('fetchApi invoked');
+    fetchApi(`/api/${new Date().getTime()}`).then(resp => console.log(`${new Date().getTime()}`));
+    console.log('fetchApi invoked');
+    fetchApi(`/api/${new Date().getTime()}`).then(resp => console.log(`${new Date().getTime()}`));
+    console.log('fetchApi invoked');
+    fetchApi(`/api/${new Date().getTime()}`).then(resp => console.log(`${new Date().getTime()}`));
+    console.log('fetchApi invoked');
+    fetchApi(`/api/${new Date().getTime()}`).then(resp => console.log(`${new Date().getTime()}`));
+    console.log('fetchApi invoked');
+
+    setTimeout(() => {
+      postMessage('token-renewed');
+    }, 3000);
+  </script>
+</body>
+</html>
