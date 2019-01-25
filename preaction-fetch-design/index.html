@@ -4,6 +4,15 @@
   <title></title>
 </head>
 <body>
+  <button onclick="emitFetch();">
+    emitFetch
+  </button>
+  <button onclick="postMessage('token-renewed');">
+    postMessage('token-renewed')
+  </button>
+  <button onclick="session.expired = true;">
+    set token expired
+  </button>
   <script>
     // Implementation
     const fetchApiFactory = (session) => (...args) => {
@@ -31,20 +40,11 @@
     const fetchApi = fetchApiFactory(session);
 
     // test-case
-    fetchApi(`/api/${new Date().getTime()}`).then(resp => console.log(`${new Date().getTime()}`));
-    console.log('fetchApi invoked');
-    fetchApi(`/api/${new Date().getTime()}`).then(resp => console.log(`${new Date().getTime()}`));
-    console.log('fetchApi invoked');
-    fetchApi(`/api/${new Date().getTime()}`).then(resp => console.log(`${new Date().getTime()}`));
-    console.log('fetchApi invoked');
-    fetchApi(`/api/${new Date().getTime()}`).then(resp => console.log(`${new Date().getTime()}`));
-    console.log('fetchApi invoked');
-    fetchApi(`/api/${new Date().getTime()}`).then(resp => console.log(`${new Date().getTime()}`));
-    console.log('fetchApi invoked');
-
-    setTimeout(() => {
-      postMessage('token-renewed');
-    }, 3000);
+    const emitFetch = () => {
+      const url = `/api/${new Date().getTime()}`;
+      fetchApi(url).then(resp => console.log(`${new Date().getTime()}`, url));
+      console.log(`fetchApi invoked: ${url}`);
+    };
   </script>
 </body>
 </html>

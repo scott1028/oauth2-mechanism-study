@@ -1,17 +1,12 @@
 {
   "name": "silent-refresh-by-iframe-with-js-sample",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.html",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c rollup.config.js",
-    "watch": "rollup -c rollup.config.js -w",
-    "server": "http-server",
-    "start": "run-p server watch"
+    "start": "http-server"
   },
   "devDependencies": {
-    "http-server": "^0.11.1",
-    "rollup": "^1.1.2",
-    "npm-run-all": "^4.1.5"
+    "http-server": "^0.11.1"
   }
 }
