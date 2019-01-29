@@ -1,9 +1,9 @@
 /**
  * fetchManager
- * This is for client-side fetch manager
+ * This is for client-side fetch manager designed by window.addEventListener('message', ...)
  * @param {Object} session - session flag object for fetchManager
- * @param {function} preaction - preaction before you invoke fetch
- * @param {function} fetch - fetch function you will use in application
+ * @param {function} checkSessionValid - check session valid or not and then return true/false
+ * @param {function} originalFetch - fetch function you will use in application
  */
 const fetchManager = (
   originalFetch,
@@ -13,7 +13,6 @@ const fetchManager = (
   }
   return new Promise((res, rej) => {
     const handler = e => {
-      preaction(session);
       if (checkSessionValid()) {
         window.removeEventListener('message', handler);
         res(originalFetch.apply(this, args));

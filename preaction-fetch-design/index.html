@@ -2,42 +2,39 @@
 <html>
 <head>
   <title></title>
+  <script src="fetchManager.js"></script>
 </head>
+<style>
+  button {
+    font-size: 24pt;
+  }
+</style>
 <body>
   <button onclick="emitFetch();">
     emitFetch
   </button>
-  <button onclick="postMessage('token-renewed');">
+  <br /><br />
+  <button onclick="setSessionValidMessage();">
     postMessage('token-renewed')
   </button>
-  <button onclick="session.expired = true;">
-    set token expired
+  <br /><br />
+  <button onclick="session.expired = true;" style="background: green; color: honeydew;">
+    set session expired
   </button>
   <script>
-    // Implementation
-    const fetchApiFactory = (session) => (...args) => {
-      if (!session.expired) {
-        return fetch.apply(this, args);
-      }
-      return new Promise((res, rej) => {
-        const handler = e => {
-          console.log(e, 'test');
-          session.expired = false;
-          window.removeEventListener('message', handler);
-          res(fetch.apply(this, args));
-        };
-        window.addEventListener('message', handler);
-      });
-    };
-
     // mock session
     let session = {
       expired: true,
       value: 'my-token',
     };
 
-    // pre-action fetch
-    const fetchApi = fetchApiFactory(session);
+    const setSessionValidMessage = () => {
+      session.expired = false;
+      postMessage('token-renewed');
+    }
+
+    // config fetch in manager
+    const fetchApi = fetchManager(fetch, () => !session.expired)
 
     // test-case
     const emitFetch = () => {
